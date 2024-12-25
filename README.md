@@ -1,3 +1,24 @@
+# Demo application with demo test failing on Windows
+
+This is a demo application with a demo test. When I run `npm run test` on Windows, I get the following output:
+
+```bash
+ FAIL  tests/app.test.ts [ tests/app.test.ts ]
+TypeError: The URL must be of scheme file
+ ❯ node_modules/@nuxt/test-utils/dirs.js:4:17
+
+ ❯ node_modules/@nuxt/test-utils/dist/e2e.mjs:4:31
+```
+As a temporary fix, I'd update `node_modules/@nuxt/test-utils/dirs.js` as below:
+
+```js
+import { fileURLToPath } from 'node:url'
+import { dirname } from 'path'
+
+// Fix for Windows path resolution
+export const distDir = dirname(fileURLToPath(import.meta.url)) + '/dist'
+```
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
